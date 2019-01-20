@@ -179,22 +179,24 @@ class LevelParser {
     return levelList
   }
 
-  createActors(stringList) {
-      var actorList = []
-      var y = 0
-      for (let string of stringList) {
-        var x = 0
-        for (let simbol of string) {
-          var actor = this.movingObjects[simbol]
 
-          if ((typeof actor === 'function' && new actor instanceof Actor)) {
-            actorList.push(new actor(new Vector(x, y)));
-          }
-          x++
-        }
-        y++
+  createActors(stringList = []) {
+    if (!this.movingObjects) {
+        return []
       }
-      return actorList
+    var actorList = [];
+
+    stringList.forEach((string, y) => {
+      string.split('').forEach((symbol, x) => {
+
+        var actor = this.actorFromSymbol(symbol);
+        if (!((typeof actor === 'function') && (new actor instanceof Actor))) {
+          return
+        };
+        actorList.push(new actor(new Vector(x, y)));
+      });
+    });
+    return actorList;
   }
 
   parse(stringList) {
@@ -296,3 +298,91 @@ class Player extends Actor {
   }
 }
 
+
+const schemas = [
+  [
+    "     v                 ",
+    "                       ",
+    "                       ",
+    "                       ",
+    "                       ",
+    "  |                    ",
+    "  o                 o  ",
+    "  x               = x  ",
+    "  x          o o    x  ",
+    "  x  @       xxxxx  x  ",
+    "  xxxxx             x  ",
+    "      x!!!!!!!!!!!!!x  ",
+    "      xxxxxxxxxxxxxxx  ",
+    "                       "
+  ],
+  [
+    "        |           |  ",
+    "                       ",
+    "                       ",
+    "                       ",
+    "                       ",
+    "                       ",
+    "                       ",
+    "                       ",
+    "                       ",
+    "     |                 ",
+    "                       ",
+    "         =      |      ",
+    " @ |  o            o   ",
+    "xxxxxxxxx!!!!!!!xxxxxxx",
+    "                       "
+  ],
+  [
+    "                       ",
+    "                       ",
+    "                       ",
+    "    o                  ",
+    "    x      | x!!x=     ",
+    "         x             ",
+    "                      x",
+    "                       ",
+    "                       ",
+    "                       ",
+    "               xxx     ",
+    "                       ",
+    "                       ",
+    "       xxx  |          ",
+    "                       ",
+    " @                     ",
+    "xxx                    ",
+    "                       "
+  ], [
+    "   v         v",
+    "              ",
+    "         !o!  ",
+    "              ",
+    "              ",
+    "              ",
+    "              ",
+    "         xxx  ",
+    "          o   ",
+    "        =     ",
+    "  @           ",
+    "  xxxx        ",
+    "  |           ",
+    "      xxx    x",
+    "              ",
+    "          !   ",
+    "              ",
+    "              ",
+    " o       x    ",
+    " x      x     ",
+    "       x      ",
+    "      x       ",
+    "   xx         ",
+    "              "
+  ]
+]
+const actorDict = {
+  '@': Player,
+  'v': FireRain
+}
+const parser = new LevelParser(actorDict);
+runGame(schemas, parser, DOMDisplay)
+  .then(() => console.log('Вы выиграли приз!'));
