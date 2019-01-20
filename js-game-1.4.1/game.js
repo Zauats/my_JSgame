@@ -381,7 +381,10 @@ const schemas = [
 ]
 const actorDict = {
   '@': Player,
-  'v': FireRain
+  'v': FireRain,
+  'o': Coin,
+  '=': HorizontalFireball,
+  '|': VerticalFireball
 }
 const parser = new LevelParser(actorDict);
 runGame(schemas, parser, DOMDisplay)
