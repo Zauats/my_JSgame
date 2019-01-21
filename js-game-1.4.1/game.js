@@ -83,7 +83,7 @@ class Level {
       throw new Error("Передайте объект типа Actor");
     };
     if (this.actors.length < 2) {
-      return undefined;
+      return ;
     }else{
       return this.actors.find(function(item) {return item.isIntersect(actor)});
     };
@@ -152,7 +152,7 @@ class LevelParser {
     if (simbol !== undefined && simbol in this.movingObjects) {
       return this.movingObjects[simbol];
     };
-    return undefined;
+    return ;
   };
 
   obstacleFromSymbol(simbol) {
@@ -161,7 +161,7 @@ class LevelParser {
     }else if (simbol === '!'){
       return 'lava';
     }else{
-      return undefined;
+      return;
     };
   };
 
