@@ -99,9 +99,10 @@ class Level {
     let bottom = Math.ceil(pos.y + size.y);
     let left = Math.floor(pos.x);
     
-    if (bottom > this.grid.length) {
+    if (bottom > this.height) {
       return('lava');
-    }else if (left < 0 || top < 0 || right > this.grid.length) {
+    }
+    if (left < 0 || top < 0 || right > this.width) {
       return 'wall';
     }
     for (let y = top; y < bottom; y++) {
@@ -387,4 +388,4 @@ const actorDict = {
 };
 const parser = new LevelParser(actorDict);
 runGame(schemas, parser, DOMDisplay)
-  .then(() => console.log('Вы выиграли приз!'));
+  .then(() => alert('Вы выиграли приз!'));
